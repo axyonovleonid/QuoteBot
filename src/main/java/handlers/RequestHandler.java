@@ -1,4 +1,4 @@
-package main;
+package handlers;
 
 import com.google.gson.*;
 import org.eclipse.jetty.server.Request;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Reader;
 
-class RequestHandler extends AbstractHandler {
+public class RequestHandler extends AbstractHandler {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
     private static final String OK_BODY = "ok";
     private static final String TYPE_FIELD = "type";
@@ -20,7 +20,7 @@ class RequestHandler extends AbstractHandler {
     private final BotRequestHandler botRequestHandler;
     private final String confirmationCode;
 
-    RequestHandler(BotRequestHandler handler, String confirmationCode) {
+    public RequestHandler(BotRequestHandler handler, String confirmationCode) {
         this.botRequestHandler = handler;
         this.confirmationCode = confirmationCode;
     }
@@ -64,4 +64,12 @@ class RequestHandler extends AbstractHandler {
             throw new ServletException("Incorrect json", e);
         }
     }
+
+
+    static class EventTypes {
+        public static final String CALLBACK_EVENT_MESSAGE_NEW = "message_new";
+        public static final String CALLBACK_EVENT_CONFIRMATION = "confirmation";
+//    public static final String CALLBACK_EVENT_MESSAGE_REPLY = "message_reply";
+    }
 }
+

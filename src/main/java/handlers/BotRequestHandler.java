@@ -1,4 +1,4 @@
-package main;
+package handlers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -9,7 +9,7 @@ import com.vk.api.sdk.exceptions.ClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class BotRequestHandler {
+public class BotRequestHandler {
 
     private static final Logger log = LoggerFactory.getLogger(BotRequestHandler.class);
     private static final String BODY_FIELD = "body";
@@ -19,7 +19,7 @@ class BotRequestHandler {
     private final VkApiClient apiClient;
     private final GroupActor actor;
 
-    BotRequestHandler(VkApiClient apiClient, GroupActor actor) {
+    public BotRequestHandler(VkApiClient apiClient, GroupActor actor) {
         this.apiClient = apiClient;
         this.actor = actor;
     }

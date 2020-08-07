@@ -1,10 +1,10 @@
-package main;
-
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
+import handlers.BotRequestHandler;
+import handlers.RequestHandler;
 import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class MainService {
+public class Application {
     private final static String PROPERTIES_FILE = "app.properties";
-    private final static Logger log = LoggerFactory.getLogger(MainService.class);
+    private final static Logger log = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) throws Exception {
         Properties properties = readProperties();
@@ -65,7 +65,7 @@ public class MainService {
     }
 
     private static Properties readProperties() throws FileNotFoundException {
-        InputStream inputStream = MainService.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE);
+        InputStream inputStream = Application.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE);
         if (inputStream == null)
             throw new FileNotFoundException("property file '" + PROPERTIES_FILE + "' not found in the classpath");
         try {
