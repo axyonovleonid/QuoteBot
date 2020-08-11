@@ -1,5 +1,5 @@
 ### **Start bot**
-1. Specify bot url (**ngrok** can be used) in callback settings of your community
+1. Specify bot url (**ngrok** can be used for tunneling local ports to public url) in callback settings of your community
 2. Specify confirmation code and etc. in **application.properties**
 3. Launch spring boot app with command from the classpath
     ```
