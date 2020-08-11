@@ -1,10 +1,14 @@
 package handlers;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import vo.VKMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +21,11 @@ public class RequestHandler extends AbstractHandler {
     private static final String OK_BODY = "ok";
     private static final String TYPE_FIELD = "type";
     private static final Gson gson = new GsonBuilder().create();
-    private final BotRequestHandler botRequestHandler;
+    private final VKMessageHandler messageHandler;
     private final String confirmationCode;
 
-    public RequestHandler(BotRequestHandler handler, String confirmationCode) {
-        this.botRequestHandler = handler;
+    public RequestHandler(VKMessageHandler handler, String confirmationCode) {
+        this.messageHandler = handler;
         this.confirmationCode = confirmationCode;
     }
 
@@ -43,10 +47,13 @@ public class RequestHandler extends AbstractHandler {
 
             switch (type) {
                 case EventTypes.CALLBACK_EVENT_CONFIRMATION:
+                    log.info("Confirmation code processing");
                     responseBody = confirmationCode;
                     break;
                 case EventTypes.CALLBACK_EVENT_MESSAGE_NEW:
-                    botRequestHandler.handle(requestJson.getAsJsonObject("object"));
+                    log.info("Message processing");
+                    VKMessage message = gson.fromJson(requestJson.getAsJsonObject("object"), VKMessage.class);
+                    messageHandler.handle(message);
                     responseBody = OK_BODY;
                     break;
                 default:
@@ -69,7 +76,6 @@ public class RequestHandler extends AbstractHandler {
     static class EventTypes {
         public static final String CALLBACK_EVENT_MESSAGE_NEW = "message_new";
         public static final String CALLBACK_EVENT_CONFIRMATION = "confirmation";
-//    public static final String CALLBACK_EVENT_MESSAGE_REPLY = "message_reply";
     }
 }
 
